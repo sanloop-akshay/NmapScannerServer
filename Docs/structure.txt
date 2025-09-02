@@ -23,6 +23,7 @@ server/
 │   │   ├── auth_service.py 
 │   │   ├── scan_service.py
 │   │   ├── pdf_service.py  
+│   │   ├── socket_service.py  
 │   │   └── otp_service.py  
 │   │
 │   ├── tasks/              
@@ -34,6 +35,7 @@ server/
 │   │   ├── auth.py        
 │   │   ├── scan.py         
 │   │   ├── contact.py      
+│   │   ├── socket.py      
 │   │   └── __init__.py
 │   │
 │   ├── utils/             
