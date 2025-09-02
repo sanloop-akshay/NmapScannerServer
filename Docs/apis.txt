@@ -3,16 +3,19 @@ POST /auth/signup/ - email, fullname, password
 POST /auth/verify-otp/ - email, verification otp
 POST /auth/resend-otp/ - email
 POST /auth/login/ - email, password
-GET /api/me
 POST /auth/refresh/
 POST /auth/logout/ 
-PUT /auth/update-account - email, fullname, password
-DELETE /auth/delete-account
+
+USER
+GET /user/me
+GET /user/profile
+PUT /user/update-account - email, fullname, password
+DELETE /user/delete-account
 
 SCANS
 POST /scan/         - domain
 GET /scan/{id}/     - id of the scan
-GET /scans/{id}/    - id of the user
+GET /scans/         - jwt of the user
 GET /scan/{id}/pdf  - id of the scan
 DELETE /scan/{id}/  - id of the scan
 
