@@ -1,0 +1,18 @@
+User 
+
+    Login - requires email and password
+    Signup - requires email, password and fullname
+    OTPVerification -  requires the otp that you got from the mail 
+    ResendOTP - requires email to resend the otp
+    Delete-account - requires email and password to delete the account permanently
+
+Scan
+    StartScan - requires domain or ip to scan the target
+    Process - the target goes to the queue and gets processed by the worker in the background and the status changes based on the process,
+    DeleteScan - User can delete the scan after the progress is completed
+    Status - can check the status of the scan anytime via socket connection    
+    
+
+Support
+    Contact - requires name, email and message to contact the support team
+    FAQ - frequently asked questions

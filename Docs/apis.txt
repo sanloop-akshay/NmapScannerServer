@@ -1,6 +1,7 @@
 AUTH
 POST /auth/signup/
 POST /auth/verify-otp/
+POST /auth/resend-otp/
 POST /auth/login/
 POST /auth/refresh/
 POST /auth/logout/
