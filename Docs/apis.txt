@@ -3,6 +3,7 @@ POST /auth/signup/ - email, fullname, password
 POST /auth/verify-otp/ - email, verification otp
 POST /auth/resend-otp/ - email
 POST /auth/login/ - email, password
+GET /api/me
 POST /auth/refresh/
 POST /auth/logout/ 
 PUT /auth/update-account - email, fullname, password
