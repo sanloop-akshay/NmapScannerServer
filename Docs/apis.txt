@@ -1,18 +1,19 @@
 AUTH
-POST /auth/signup/
-POST /auth/verify-otp/
-POST /auth/resend-otp/
-POST /auth/login/
+POST /auth/signup/ - email, fullname, password
+POST /auth/verify-otp/ - email, verification otp
+POST /auth/resend-otp/ - email
+POST /auth/login/ - email, password
 POST /auth/refresh/
-POST /auth/logout/
-PUT /auth/update-account
+POST /auth/logout/ 
+PUT /auth/update-account - email, fullname, password
 DELETE /auth/delete-account
 
 SCANS
-POST /scan/
-GET /scan/{id}/
-GET /scan/{id}/pdf
-DELETE /scan/{id}/
+POST /scan/         - domain
+GET /scan/{id}/     - id of the scan
+GET /scans/{id}/    - id of the user
+GET /scan/{id}/pdf  - id of the scan
+DELETE /scan/{id}/  - id of the scan
 
 SUPPORT
-POST /support/contact/
+POST /support/contact/ - Data of the user message select option
