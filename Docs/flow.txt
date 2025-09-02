@@ -1,0 +1,13 @@
+1.Develop the Signup Page with email fullname password
+2.After Validation in Signup request save the user data in the redis (temp storage only for 5 mins) with the given email as key for later retreival then generate a otp, give the email sending task to celery redis
+3.Make sure we have the email in the otp verify page after getting the otp from the user send the entered otp along with the email to retreive the data after checking the entered otp is correct. After this hash the password and store in the db by fetching the data from the stored redis temp storage.
+4.If the user send the resend-otp api then we need resend the otp so in the signup and the resend otp function we need to use a common function to send the otp.
+Note : If the user directly tries to use the verify-otp and resend-otp api we need to validate because they may directly access the verify otp and resend otp.
+5.Now the user need to login with the email and the password, then in the backend we validate and if okay we gave the user refresh token and the access token.
+Note : After login if the tries to go to the login page or the signup page or teh verify page we need to use the me api to know wheather he loggedin or Not
+6.Now the user in the Dashboard, Here he can place the domain or ip of a target and click the button scan, below that a table contains the previous scans 
+Note : Using the access token we get the scans he previously did/
+7.Now in the backend we need to scan the target, here using celery and redis we scan the target in the back ground and in the front we place the last given url with inprogress status.
+8.In the Table the user can view a particular scan details there we make a socket request from the client and connect with the backend socket and if any change occurs to that particular scan data (status) we update it realtime
+9.Like wise using the delete scan api the user can delete the scan
+10.User can view and update the profile
