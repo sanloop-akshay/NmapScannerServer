@@ -1,0 +1,50 @@
+server/
+│── alembic/              
+│── app/
+│   ├── __init__.py
+│   ├── core/               
+│   │   ├── config.py      
+│   │   ├── security.py    
+│   │   ├── celery_app.py   
+│   │   └── database.py     
+│   │
+│   ├── models/             
+│   │   ├── user.py
+│   │   ├── scan.py
+│   │   └── __init__.py
+│   │
+│   ├── schemas/         
+│   │   ├── user.py
+│   │   ├── auth.py
+│   │   ├── scan.py
+│   │   └── __init__.py
+│   │
+│   ├── services/          
+│   │   ├── auth_service.py 
+│   │   ├── scan_service.py
+│   │   ├── pdf_service.py  
+│   │   └── otp_service.py  
+│   │
+│   ├── tasks/              
+│   │   ├── scan_tasks.py  
+│   │   ├── otp_tasks.py    
+│   │   └── __init__.py
+│   │
+│   ├── routes/            
+│   │   ├── auth.py        
+│   │   ├── scan.py         
+│   │   ├── contact.py      
+│   │   └── __init__.py
+│   │
+│   ├── utils/             
+│   │   ├── email.py      
+│   │   ├── pdf.py        
+│   │   └── nmap_runner.py 
+│   │
+│   └── main.py             
+│
+├── celery_worker.py       
+├── requirements.txt
+├── alembic.ini
+├── .env                   
+└── Dockerfile             

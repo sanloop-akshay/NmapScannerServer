@@ -1,0 +1,17 @@
+AUTH
+POST /auth/signup/
+POST /auth/verify-otp/
+POST /auth/login/
+POST /auth/refresh/
+POST /auth/logout/
+PUT /auth/update-account
+DELETE /auth/delete-account
+
+SCANS
+POST /scan/
+GET /scan/{id}/
+GET /scan/{id}/pdf
+DELETE /scan/{id}/
+
+SUPPORT
+POST /support/contact/
