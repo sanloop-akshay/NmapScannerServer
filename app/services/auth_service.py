@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
-from jose import jwt
+from jose import jwt,JWTError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from app.models.user import User
@@ -74,3 +74,24 @@ def verify_otp_and_create_user(db: Session, email: str, otp: str):
     redis_client.delete(redis_key)
 
     return True, "Signup successful"
+
+
+def refresh_access_token(db: Session, refresh_token: str) -> str | None:
+    try:
+        payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: int = payload.get("sub")
+        if user_id is None:
+            return None
+    except JWTError:
+        return None
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return None
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    new_access_token = create_token(
+        data={"sub": str(user.id)},
+        expires_delta=access_token_expires
+    )
+    return new_access_token

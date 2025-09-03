@@ -6,17 +6,21 @@ import threading
 import json
 from xhtml2pdf import pisa
 import os
+from app.core.database import SessionLocal
+from app.services.scan_service import update_scan_status
+from app.models.scan import ScanStatus
 
 nm = nmap.PortScanner()
 scan_results = []
 
 
 
-def resolve_target(host: str) -> str:
+def resolve_target(host: str, scan_id: int) -> str:
     try:
         return socket.gethostbyname(host)
     except Exception as e:
-        print(f"Error resolving host '{host}': {e}")
+        db = SessionLocal()
+        update_scan_status(db, scan_id, ScanStatus.failed)
         return host
 
 
@@ -125,36 +129,35 @@ def save_pdf(html_content, filename="scan_report.pdf"):
     return filepath
 
 
-
 @shared_task(name="app.tasks.scan_tasks.run_all_scans")
-def run_all_scans(target: str):
-    print(f"Starting scans for target: {target}")
-    global scan_results
-    scan_results = []
+def run_all_scans(target: str, scan_id: int):
+    db = SessionLocal()
+    try:
+        update_scan_status(db, scan_id, ScanStatus.running)
 
-    ip = resolve_target(target)
+        global scan_results
+        scan_results = []
 
-    scan_functions = [
-        host_discovery,
-        # comprehensive_scan,
-        # aggressive_scan,
-        # web_enumeration,
-        ssl_checks,
-        smb_checks,
-        database_checks,
-        # general_vuln_scan
-    ]
+        ip = resolve_target(target,scan_id)
 
-    threads = []
-    for func in scan_functions:
-        t = threading.Thread(target=func, args=(ip,))
-        t.start()
-        threads.append(t)
+        scan_functions = [host_discovery, ssl_checks, smb_checks, database_checks]
 
-    for t in threads:
-        t.join()
+        threads = []
+        for func in scan_functions:
+            t = threading.Thread(target=func, args=(ip,))
+            t.start()
+            threads.append(t)
 
-    html_report = generate_html_report(target, ip, scan_results)
-    pdf_path = save_pdf(html_report, f"{target}_scan_report.pdf")
+        for t in threads:
+            t.join()
 
-    
+        html_report = generate_html_report(target, ip, scan_results)
+        pdf_path = save_pdf(html_report, f"{target}_scan_report.pdf")
+
+        update_scan_status(db, scan_id, ScanStatus.completed, pdf_path=pdf_path)
+
+    except Exception as e:
+        update_scan_status(db, scan_id, ScanStatus.failed)
+        raise e
+    finally:
+        db.close()

@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
-# app.include_router(scan.router)
+app.include_router(scan.router)
 # app.include_router(socket.router)
 # app.include_router(contact.router)
 
