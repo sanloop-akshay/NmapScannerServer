@@ -7,9 +7,9 @@ POST /auth/refresh/
 POST /auth/logout/ 
 
 USER
-GET /user/me
-GET /user/profile - check user
-PUT /user/update-account - email, fullname, password - check user
+GET /auth/me
+GET /auth/profile - check user
+PUT /auth/update-account - email, fullname, password - check user
 DELETE /user/delete-account - check user
 
 SCANS

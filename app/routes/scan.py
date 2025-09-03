@@ -1,16 +1,29 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request,HTTPException, status
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
 from app.core.config import SECRET_KEY, ALGORITHM
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.scan import ScanCreate, ScanResponse
-from app.services.scan_service import create_scan
+from app.services.scan_service import create_scan,get_scans_for_user
 from app.tasks.scan_tasks import run_all_scans
 from app.core.security import get_current_user
+from typing import List
 
 router = APIRouter(prefix="/scan", tags=["scan"])
 
+@router.get("/", response_model=List[ScanResponse], status_code=status.HTTP_200_OK)
+def list_user_scans(request: Request, db: Session = Depends(get_db)):
+    user: User = get_current_user(request, db)
+
+    scans = get_scans_for_user(db, user.id)
+    if not scans:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No scans found for this user",
+        )
+
+    return scans
 
 @router.post("/", response_model=ScanResponse)
 def create_scan_request(scan_data: ScanCreate, request: Request, db: Session = Depends(get_db)):

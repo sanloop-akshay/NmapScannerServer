@@ -63,7 +63,6 @@ def refresh_token(request: Request, response: Response, db: Session = Depends(ge
     if not new_access_token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired refresh token")
 
-    # Set new access token in cookies
     response.set_cookie(
         key="access_token",
         value=new_access_token,
