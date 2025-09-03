@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 scan_app.db
 dump.rdb
+reports/
