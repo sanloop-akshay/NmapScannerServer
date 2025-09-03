@@ -13,8 +13,8 @@ celery_app = Celery(
     broker=CELERY_BROKER_URL,
     backend=CELERY_RESULT_BACKEND,
     include=[
-        "app.tasks.otp_tasks",  # Updated to match your actual task files
-        "app.tasks.scan_tasks", # Include other task modules
+        "app.tasks.otp_tasks",  
+        "app.tasks.scan_tasks", 
     ]
 )
 
