@@ -1,9 +1,10 @@
 import socket
 import nmap
 import threading
+import json
 
 nm = nmap.PortScanner()
-scan_results = [] 
+scan_results = []
 
 
 def resolve_target(host: str) -> str:
@@ -76,7 +77,6 @@ def general_vuln_scan(target: str):
 
 
 def run_all_scans(target: str):
-
     ip = resolve_target(target)
     print(f"Resolved IP: {ip}")
 
@@ -105,6 +105,11 @@ def run_all_scans(target: str):
 
 
 if __name__ == "__main__":
-    target = "icanio.com"
+    target = "tamilfoods.in"
     results = run_all_scans(target)
-    print(results)
+
+    # Save results to JSON
+    with open("scan_results.json", "w") as f:
+        json.dump(results, f, indent=4)
+
+    print("Results saved to scan_results.json")
