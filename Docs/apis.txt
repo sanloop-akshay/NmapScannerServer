@@ -8,16 +8,16 @@ POST /auth/logout/
 
 USER
 GET /user/me
-GET /user/profile
-PUT /user/update-account - email, fullname, password
-DELETE /user/delete-account
+GET /user/profile - check user
+PUT /user/update-account - email, fullname, password - check user
+DELETE /user/delete-account - check user
 
 SCANS
-POST /scan/         - domain
-GET /scan/{id}/     - id of the scan
-GET /scans/         - jwt of the user
-GET /scan/{id}/pdf  - id of the scan
-DELETE /scan/{id}/  - id of the scan
+POST /scan/         - domain - check user
+GET /scan/{id}/     - id of the scan - check user
+GET /scans/         - jwt of the user - check user
+GET /scan/{id}/pdf  - id of the scan - check user and with db
+DELETE /scan/{id}/  - id of the scan - check user and with db 
 
 SUPPORT
 POST /support/contact/ - Data of the user message select option

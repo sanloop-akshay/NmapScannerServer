@@ -11,3 +11,7 @@ Note : Using the access token we get the scans he previously did/
 8.In the Table the user can view a particular scan details there we make a socket request from the client and connect with the backend socket and if any change occurs to that particular scan data (status) we update it realtime
 9.Like wise using the delete scan api the user can delete the scan
 10.User can view and update the profile
+
+
+
+Logout - removes tokens from the session

@@ -12,9 +12,6 @@ from app.core.security import get_current_user
 router = APIRouter(prefix="/scan", tags=["scan"])
 
 
-
-
-
 @router.post("/", response_model=ScanResponse)
 def create_scan_request(scan_data: ScanCreate, request: Request, db: Session = Depends(get_db)):
     user = get_current_user(request, db)
