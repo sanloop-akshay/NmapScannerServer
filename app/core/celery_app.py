@@ -13,7 +13,7 @@ celery_app = Celery(
     broker=CELERY_BROKER_URL,
     backend=CELERY_RESULT_BACKEND,
     include=[
-        "app.tasks.otp_tasks",  
+        "app.tasks.mailer",  
         "app.tasks.scan_tasks", 
     ]
 )

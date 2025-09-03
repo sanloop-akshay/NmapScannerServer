@@ -3,3 +3,4 @@ venv/
 __pycache__/
 *.pyc
 scan_app.db
+dump.rdb
