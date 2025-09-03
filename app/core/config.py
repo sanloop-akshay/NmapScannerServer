@@ -1,0 +1,8 @@
+from decouple import config
+
+SECRET_KEY = config("SECRET_KEY")
+ALGORITHM = config("ALGORITHM", default="HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int, default=15)
+REFRESH_TOKEN_EXPIRE_MINUTES = config("REFRESH_TOKEN_EXPIRE_MINUTES", cast=int, default=60)
+EMAIL_HOST = config("EMAIL_HOST")
+APP_PASSWORD = config("APP_PASSWORD")
