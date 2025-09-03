@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, func
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from app.models.scan import Scan
 
 class User(Base):
     __tablename__ = "users"

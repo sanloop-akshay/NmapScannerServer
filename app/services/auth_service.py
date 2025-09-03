@@ -41,8 +41,12 @@ def signup_send_otp(db: Session, fullname: str, email: str, password: str):
     if db.query(User).filter(User.email == email).first():
         return False, "Email already registered"
     otp = generate_otp()
+    print(otp)
+    print("Calling the Email celery task")
     send_signup_otp_email.delay(email, otp)
+    print("called the service")
     redis_key = f"user_signup:{email}"
+    print(redis_key)
     redis_client.hmset(redis_key, {
         "fullname": fullname,
         "email": email,
