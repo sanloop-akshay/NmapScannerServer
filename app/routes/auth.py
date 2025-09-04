@@ -86,14 +86,3 @@ def get_profile(request: Request, db: Session = Depends(get_db)):
         "fullname": user.fullname
     }
     
-
-@router.delete("/{scan_id}/", status_code=status.HTTP_200_OK)
-def delete_scan_route(scan_id: int, request: Request, db: Session = Depends(get_db)):
-    user: User = get_current_user(request, db)
-
-    delete_scan(db, scan_id, user.id)
-
-    return {
-        "status_code": status.HTTP_200_OK,
-        "message": f"Scan with id {scan_id} deleted successfully",
-    }

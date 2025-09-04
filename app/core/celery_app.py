@@ -15,6 +15,7 @@ celery_app = Celery(
     include=[
         "app.tasks.mailer",  
         "app.tasks.scan_tasks", 
+        "app.tasks.contact_task"
     ]
 )
 
