@@ -4,12 +4,12 @@ from jose import jwt, JWTError
 from app.core.config import SECRET_KEY, ALGORITHM
 from app.core.database import get_db
 from app.models.user import User
-from app.schemas.scan import ScanCreate, ScanResponse
+from app.schemas.scan import ScanCreate, ScanResponse, ScanDeleteResponse
 from app.services.scan_service import create_scan,get_scans_for_user
 from app.tasks.scan_tasks import run_all_scans
 from app.core.security import get_current_user
 from typing import List
-
+from app.services.scan_service import delete_scan
 router = APIRouter(prefix="/scan", tags=["scan"])
 
 @router.get("/", response_model=List[ScanResponse], status_code=status.HTTP_200_OK)
@@ -39,3 +39,15 @@ def create_scan_request(scan_data: ScanCreate, request: Request, db: Session = D
         "scanned_at": scan.scanned_at,
         "pdf_path": scan.pdf_path,
     }
+
+
+@router.delete("/{scan_id}", response_model=ScanDeleteResponse, status_code=status.HTTP_200_OK)
+def delete_scan_request(scan_id: int, request: Request, db: Session = Depends(get_db)):
+    user: User = get_current_user(request, db)
+
+    try:
+        delete_scan(db, scan_id, user.id)
+    except HTTPException as e:
+        raise e
+
+    return {"detail": "Scan deleted successfully"}

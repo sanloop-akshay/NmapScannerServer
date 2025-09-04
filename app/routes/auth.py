@@ -3,8 +3,11 @@ from sqlalchemy.orm import Session
 from app.schemas.auth import LoginRequest,SignupRequest, SignupResponse,OTPVerifyRequest, OTPVerifyResponse
 from app.core.database import get_db
 from app.services.auth_service import authenticate_user, create_token_pair,signup_send_otp, verify_otp_and_create_user,refresh_access_token
-from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_MINUTES
+from app.services.scan_service import delete_scan
 
+from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_MINUTES
+from app.core.security import get_current_user
+from app.models.user import User
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login/", status_code=status.HTTP_200_OK)
@@ -72,3 +75,25 @@ def refresh_token(request: Request, response: Response, db: Session = Depends(ge
     )
 
     return {"message": "Access token refreshed successfully"}
+
+@router.get("/profile", status_code=status.HTTP_200_OK)
+def get_profile(request: Request, db: Session = Depends(get_db)):
+    user: User = get_current_user(request, db)
+    return {
+        "status_code": status.HTTP_200_OK,
+        "email": user.email,
+        "id": user.id,
+        "fullname": user.fullname
+    }
+    
+
+@router.delete("/{scan_id}/", status_code=status.HTTP_200_OK)
+def delete_scan_route(scan_id: int, request: Request, db: Session = Depends(get_db)):
+    user: User = get_current_user(request, db)
+
+    delete_scan(db, scan_id, user.id)
+
+    return {
+        "status_code": status.HTTP_200_OK,
+        "message": f"Scan with id {scan_id} deleted successfully",
+    }

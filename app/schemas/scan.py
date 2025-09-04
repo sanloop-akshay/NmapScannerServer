@@ -18,3 +18,5 @@ class ScanResponse(BaseModel):
     class Config:
         orm_mode = True
         
+class ScanDeleteResponse(BaseModel):
+    detail: str

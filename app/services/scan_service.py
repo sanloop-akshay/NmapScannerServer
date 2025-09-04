@@ -24,3 +24,25 @@ def update_scan_status(db: Session, scan_id: int, status: ScanStatus, pdf_path: 
     db.commit()
     db.refresh(scan)
     return scan
+
+
+def delete_scan(db: Session, scan_id: int, user_id: int) -> bool:
+
+    scan = db.query(Scan).filter(Scan.id == scan_id).first()
+    if not scan:
+        from fastapi import HTTPException, status
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Scan with id {scan_id} not found",
+        )
+
+    if scan.user_id != user_id:
+        from fastapi import HTTPException, status
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not allowed to delete this scan",
+        )
+
+    db.delete(scan)
+    db.commit()
+    return True
